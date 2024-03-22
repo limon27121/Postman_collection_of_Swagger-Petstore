@@ -1,0 +1,470 @@
+{
+	"info": {
+		"_postman_id": "3280f082-d8e2-4ece-82ce-e922099ac847",
+		"name": "Swagger Petstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24742376"
+	},
+	"item": [
+		{
+			"name": "User_create_with_value",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var url=\"https://petstore.swagger.io/v2\";\r",
+							"pm.collectionVariables.set(\"Base_Url\",url );\r",
+							"\r",
+							"var random_id = Math.floor(Math.random() * 100) + 10;\r",
+							"var random_String = Math.random().toString(36).substring(2).replace(/\\d/g, '');\r",
+							"var random_email=random_String+\"@gmail.com\";\r",
+							"var random_Num = Math.floor(Math.random() * 99999999);\r",
+							"var phoneNumber =  \"+88017\" + random_Num.toString().padStart(8, '0');\r",
+							"pm.collectionVariables.set(\"Id_collection\",random_id);\r",
+							"pm.collectionVariables.set(\"User_collection\",random_String);\r",
+							"pm.collectionVariables.set(\"Firstname_collection\",random_String);\r",
+							"pm.collectionVariables.set(\"Lastname_collection\",random_String);\r",
+							"pm.collectionVariables.set(\"Email_collection\",random_email);\r",
+							"pm.collectionVariables.set(\"Password_collection\",random_Num);\r",
+							"pm.collectionVariables.set(\"Phone_collection\",phoneNumber);\r",
+							"// pm.collectionVariables.set(\"Userstatus_collection\",0);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var response=pm.response.json();\r",
+							"\r",
+							"pm.test(\"test response body property\", function () {\r",
+							" \r",
+							" pm.expect(response).to.haveOwnProperty(\"code\")\r",
+							" pm.expect(response).to.haveOwnProperty(\"type\")\r",
+							" pm.expect(response).to.haveOwnProperty(\"message\")\r",
+							"   \r",
+							"});\r",
+							"\r",
+							"pm.test(\"test response body property value type\", function () {\r",
+							"    pm.expect(response.code).to.be.a(\"Number\")\r",
+							"    pm.expect(response.type).to.be.a(\"String\")\r",
+							"    pm.expect(response.message).to.be.a(\"String\")\r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"test response body property value\", function () {\r",
+							"    pm.expect(response.code).to.be.equal(200);\r",
+							"    pm.expect(response.type).to.be.equal(\"unknown\");\r",
+							"    pm.expect(response.message).to.be.equal(\"ok\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"id\": \"{{Id_collection}}\",\r\n    \"username\": \"{{User_collection}}\",\r\n    \"firstName\": \"{{Firstname_collection}}\",\r\n    \"lastName\": \"{{Lastname_collection}}\",\r\n    \"email\": \"{{Email_collection}}\",\r\n    \"password\": \"{{Password_collection}}\",\r\n    \"phone\": \"{{Phone_collection}}\",\r\n    \"userStatus\": 0\r\n  }\r\n]"
+				},
+				"url": {
+					"raw": "{{Base_Url}}/user/createWithArray",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"user",
+						"createWithArray"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_user_by_username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Status code is 400 or 404', function () {\r",
+							"    pm.response.to.not.have.status([\r",
+							"        400,\r",
+							"        404\r",
+							"    ]);\r",
+							"})\r",
+							"\r",
+							"var response = pm.response.json();\r",
+							"\r",
+							"pm.test('test response body property', function () {\r",
+							"    pm.expect(response).to.haveOwnProperty('id');\r",
+							"    pm.expect(response).to.haveOwnProperty('username');\r",
+							"    pm.expect(response).to.haveOwnProperty('firstName');\r",
+							"    pm.expect(response).to.haveOwnProperty('lastName');\r",
+							"    pm.expect(response).to.haveOwnProperty('email');\r",
+							"    pm.expect(response).to.haveOwnProperty('password');\r",
+							"    pm.expect(response).to.haveOwnProperty('phone');\r",
+							"    pm.expect(response).to.haveOwnProperty('userStatus');\r",
+							"})\r",
+							"\r",
+							"pm.test('test response body property value type', function () {\r",
+							"    pm.expect(response.id).to.be.a('Number');\r",
+							"    pm.expect(response.username).to.be.a('String');\r",
+							"    pm.expect(response.firstName).to.be.a('String');\r",
+							"    pm.expect(response.lastName).to.be.a('String');\r",
+							"    pm.expect(response.email).to.be.a('String');\r",
+							"    pm.expect(response.password).to.be.a('String');\r",
+							"    pm.expect(response.phone).to.be.a('String');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"test response body property value \", function () {\r",
+							"   pm.expect(response.id).to.eql(Number(pm.collectionVariables.get(\"Id_collection\")));\r",
+							"   pm.expect(response.username).to.eql(pm.collectionVariables.get(\"User_collection\"));\r",
+							"   pm.expect(response.firstName).to.eql(pm.collectionVariables.get(\"Firstname_collection\"));\r",
+							"   pm.expect(response.lastName).to.eql(pm.collectionVariables.get(\"Lastname_collection\"));\r",
+							"   pm.expect(response.email).to.eql(pm.collectionVariables.get(\"Email_collection\"));\r",
+							"   pm.expect(response.password).to.eql(String(pm.collectionVariables.get(\"Password_collection\")));\r",
+							"   pm.expect(response.phone).to.eql(pm.collectionVariables.get(\"Phone_collection\"));\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/user/{{User_collection}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"user",
+						"{{User_collection}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is  200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is not 400 or 404\", function () {\r",
+							"    pm.response.to.not.have.status([400,404]);\r",
+							"});\r",
+							"\r",
+							"var response=pm.response.json();\r",
+							"\r",
+							"pm.test(\"test response body property\", function () {\r",
+							" \r",
+							" pm.expect(response).to.haveOwnProperty(\"code\")\r",
+							" pm.expect(response).to.haveOwnProperty(\"type\")\r",
+							" pm.expect(response).to.haveOwnProperty(\"message\")\r",
+							"   \r",
+							"});\r",
+							"\r",
+							"pm.test(\"test response body property value type\", function () {\r",
+							"    pm.expect(response.code).to.be.a(\"Number\")\r",
+							"    pm.expect(response.type).to.be.a(\"String\")\r",
+							"    pm.expect(response.message).to.be.a(\"String\")\r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"test response body property value\", function () {\r",
+							"    pm.expect(response.code).to.be.equal(200);\r",
+							"    pm.expect(response.type).to.be.equal(\"unknown\");\r",
+							"    pm.expect(response.message).to.be.equal(\"0\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"011171060\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_Url}}/user/{{User_collection}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"user",
+						"{{User_collection}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is not 400 or 404\", function () {\r",
+							"    pm.response.to.not.have.status([400,404]);\r",
+							"});\r",
+							"\r",
+							" var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"test response body property\", function () {\r",
+							"  \r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"code\");\r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"type\");\r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"message\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"test response body property value type\", function () {\r",
+							"  \r",
+							"    pm.expect(jsonData.code).to.be.a(\"Number\");\r",
+							"    pm.expect(jsonData.type).to.be.a(\"String\");\r",
+							"    pm.expect(jsonData.message).to.be.a(\"String\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"test response body property value type\", function () {\r",
+							"  \r",
+							"    pm.expect(String(jsonData.code)).to.be.equal(\"200\");\r",
+							"    pm.expect(jsonData.type).to.be.equal(\"unknown\");\r",
+							"    pm.expect(jsonData.message).to.be.equal(pm.collectionVariables.get(\"User_collection\"));\r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/user/{{User_collection}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"user",
+						"{{User_collection}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User_login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is not 400\", function () {\r",
+							"    pm.response.to.not.have.status(400);\r",
+							"});\r",
+							"\r",
+							"  var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"test response body property\", function () {\r",
+							"  \r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"code\");\r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"type\");\r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"message\");\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"test response body property\", function () {\r",
+							"  \r",
+							"    pm.expect(jsonData.code).to.be.a(\"Number\");\r",
+							"    pm.expect(jsonData.type).to.be.a(\"String\");\r",
+							"    pm.expect(jsonData.message).to.be.a(\"String\");\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/user/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User_logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"test response body property\", function () {\r",
+							"  \r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"code\");\r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"type\");\r",
+							"    pm.expect(jsonData).to.haveOwnProperty(\"message\");\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"test response body property\", function () {\r",
+							"  \r",
+							"    pm.expect(jsonData.code).to.be.a(\"Number\");\r",
+							"    pm.expect(jsonData.type).to.be.a(\"String\");\r",
+							"    pm.expect(jsonData.message).to.be.a(\"String\");\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"pm.test(\"ensure logout check the message\", function () {\r",
+							"    \r",
+							"    pm.expect(jsonData.message).to.eql(\"ok\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/user/logout",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Id_collection",
+			"value": ""
+		},
+		{
+			"key": "User_collection",
+			"value": ""
+		},
+		{
+			"key": "Firstname_collection",
+			"value": ""
+		},
+		{
+			"key": "Lastname_collection",
+			"value": ""
+		},
+		{
+			"key": "Email_collection",
+			"value": ""
+		},
+		{
+			"key": "Password_collection",
+			"value": ""
+		},
+		{
+			"key": "Phone_collection",
+			"value": ""
+		},
+		{
+			"key": "Username_collection",
+			"value": ""
+		},
+		{
+			"key": "Base_Url",
+			"value": ""
+		}
+	]
+}
